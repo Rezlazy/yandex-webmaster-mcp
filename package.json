@@ -1,0 +1,45 @@
+{
+  "name": "@rezlazy/yandex-webmaster-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Yandex Webmaster API v4",
+  "type": "module",
+  "bin": {
+    "yandex-webmaster-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@types/node": "^22.20.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0",
+    "zod": "4.4.3"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js --banner:js='#!/usr/bin/env node' && chmod +x dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build",
+    "pack": "npm run build && mkdir -p dist-packages && npm pack --pack-destination dist-packages"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rezlazy/yandex-webmaster-mcp.git"
+  },
+  "keywords": [
+    "mcp",
+    "yandex-webmaster",
+    "webmaster",
+    "seo",
+    "model-context-protocol"
+  ]
+}
