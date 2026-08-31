@@ -54,6 +54,11 @@ export const qDeviceType = enumStr(
   true,
 );
 
+export const qVerificationType = enumStr(
+  ["META_TAG", "HTML_FILE", "DNS"],
+  "Verification method (ApiExplicitVerificationType)",
+);
+
 export function wmGet(
   name: string,
   path: string,

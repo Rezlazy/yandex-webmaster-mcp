@@ -38,8 +38,16 @@ describe("catalog", () => {
   it("POST endpoints accept body", () => {
     const writers = catalog.filter((d) => d.method === "POST");
     for (const def of writers) {
+      if (def.name === "wm_verification_start") continue;
       expect(def.bodyObject, def.name).toBe(true);
     }
+  });
+
+  it("wm_verification_start requires verification_type query param", () => {
+    const def = catalog.find((d) => d.name === "wm_verification_start")!;
+    const shape = buildZodShape(def);
+    expect(shape.verification_type).toBeDefined();
+    expect(def.bodyObject).toBe(false);
   });
 
   it("wm_search_queries_popular requires order_by", () => {
@@ -181,5 +189,35 @@ describe("executeEndpoint", () => {
     expect(JSON.parse(String(call[1]?.body))).toEqual({
       host_url: "https://example.com",
     });
+  });
+
+  it("sends verification_type as query param on verification start", async () => {
+    const fetchFn = vi.fn(
+      async () =>
+        new Response(
+          JSON.stringify({
+            verification_state: "IN_PROGRESS",
+            verification_type: "META_TAG",
+          }),
+          { status: 200 },
+        ),
+    );
+    const client = new WebmasterClient(
+      { token: "t", apiUrl: "https://api.webmaster.yandex.net/v4" },
+      fetchFn as unknown as typeof fetch,
+    );
+
+    const def = catalog.find((d) => d.name === "wm_verification_start")!;
+    await executeEndpoint(client, def, {
+      userId: 1,
+      hostId: "https:example.com:443",
+      verification_type: "META_TAG",
+    });
+
+    const call = fetchFn.mock.calls[0] as unknown as [string];
+    expect(String(call[0])).toContain(
+      "/user/1/hosts/https%3Aexample.com%3A443/verification?",
+    );
+    expect(String(call[0])).toContain("verification_type=META_TAG");
   });
 });

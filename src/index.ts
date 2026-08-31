@@ -5,7 +5,7 @@ import { WebmasterClient } from "./client.js";
 import { registerAllTools } from "./register.js";
 import { assertUniqueToolNames } from "./api/catalog.js";
 
-const PACKAGE_VERSION = "0.1.1";
+const PACKAGE_VERSION = "0.1.2";
 
 const SERVER_INSTRUCTIONS = `Tools for Yandex Webmaster API v4 (https://yandex.ru/dev/webmaster/doc/ru/).
 

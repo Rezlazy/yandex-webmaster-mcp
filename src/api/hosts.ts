@@ -4,6 +4,7 @@ import {
   pathHost,
   pathUserId,
   qDateRange,
+  qVerificationType,
   wmGet,
   wmWrite,
 } from "./helpers.js";
@@ -69,8 +70,12 @@ export const verificationEndpoints: EndpointDef[] = [
     "POST",
     "wm_verification_start",
     "/user/{userId}/hosts/{hostId}/verification",
-    "Start site ownership verification. Body: {\"verification_type\": \"META_TAG\" | \"HTML_FILE\" | \"DNS\" | \"WHOIS\"}",
-    { pathParams: pathHost, withBody: true },
+    "Start site ownership verification. Required query: verification_type (META_TAG, HTML_FILE, or DNS)",
+    {
+      pathParams: pathHost,
+      queryParams: { verification_type: qVerificationType },
+      withBody: false,
+    },
   ),
 ];
 
