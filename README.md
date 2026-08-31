@@ -43,6 +43,24 @@ Add to `.cursor/mcp.json` or Cursor MCP settings:
 }
 ```
 
+From GitHub (builds `dist` via `prepare` on install):
+
+```json
+{
+  "mcpServers": {
+    "yandex-webmaster": {
+      "command": "npx",
+      "args": ["-y", "github:Rezlazy/yandex-webmaster-mcp"],
+      "env": {
+        "WEBMASTER_TOKEN": "<your-oauth-token>"
+      }
+    }
+  }
+}
+```
+
+The default branch includes `prepare`. Pin a release with `github:Rezlazy/yandex-webmaster-mcp#v0.1.1` (`v0.1.0` has no `prepare` and will not build from git).
+
 For local development (`.cursor/mcp.json` in this repo):
 
 ```json
